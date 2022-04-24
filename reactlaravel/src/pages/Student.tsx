@@ -1,14 +1,21 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import axios from 'axios';
+import TableData from "../components/TableData";
 
 const Student = () => {
+
+  const [students, setStudents] = useState<{[key: string]: any}[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let fetched = false;
     const fetchStudents = async () => {
       const result = await axios.get('http://127.0.0.1:8000/api/students');
-      console.log(result);
+      if (result.data.status === 200) {
+        setStudents(result.data.students);
+        setIsLoading(false);
+      }
     }
     if(!fetched) fetchStudents();
 
@@ -41,7 +48,7 @@ const Student = () => {
                   </tr>
                 </thead>
                 <tbody>
-
+                  <TableData isLoading={isLoading} students={students}/>
                 </tbody>
               </table>
             </div>
