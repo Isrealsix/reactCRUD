@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Student from './pages/Student';
-import AddStudent from './pages/Student';
+import AddStudent from './pages/AddStudent';
 
 
 const App = () => {
