@@ -5,11 +5,16 @@ import axios from 'axios';
 const Student = () => {
 
   useEffect(() => {
+    let fetched = false;
     const fetchStudents = async () => {
       const result = await axios.get('http://127.0.0.1:8000/api/students');
       console.log(result);
     }
-    fetchStudents();
+    if(!fetched) fetchStudents();
+
+    return () => {
+      fetched = true;
+    }
   }, []);
 
   return (
