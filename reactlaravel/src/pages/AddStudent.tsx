@@ -23,6 +23,11 @@ const AddStudent = () => {
     allInput[stateName](value)
   }
 
+  const storeStudent = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    console.log(ev);
+  }
+
   return (
     <div className="container">
       <div className="row">
@@ -34,7 +39,7 @@ const AddStudent = () => {
               </h4>
             </div>
             <div className="card-body">
-              <form>
+              <form onSubmit={storeStudent}>
                 <div className="form-group mb-3">
                   <label>Student Name</label>
                   <input type="text" name="name" ref={nameRef} onChange={handleInput} className="form-control" />
