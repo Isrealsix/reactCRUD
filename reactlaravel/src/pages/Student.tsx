@@ -1,6 +1,17 @@
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
+import axios from 'axios';
 
 const Student = () => {
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const result = await axios.get('http://127.0.0.1:8000/api/students');
+      console.log(result);
+    }
+    fetchStudents();
+  }, []);
+
   return (
     <div className="container">
       <div className="row">
@@ -12,7 +23,7 @@ const Student = () => {
               </h4>
             </div>
             <div className="card-body">
-              <table className="table-bordered table-striped">
+              <table className="table table-bordered table-striped">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -25,7 +36,7 @@ const Student = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  
+
                 </tbody>
               </table>
             </div>
