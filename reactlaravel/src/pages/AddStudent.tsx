@@ -26,8 +26,12 @@ const AddStudent = () => {
 
   const storeStudent = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    const res = await axios.post('/api/add-student', {name, course, email, phone})
-    console.log({name, course, email, phone});
+    const result = await axios.post('http://127.0.0.1:8000/api/add-student', { name, course, email, phone });
+    if (result.data.status === 200) {
+      const dataFields = [nameRef, courseRef, emailRef, phoneRef];
+      for (const inputField of dataFields) inputField.current!.value = '';
+    }
+    console.log(result.data.message);
   }
 
   return (
