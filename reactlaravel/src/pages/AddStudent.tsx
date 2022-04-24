@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
@@ -23,9 +24,10 @@ const AddStudent = () => {
     allInput[stateName](value)
   }
 
-  const storeStudent = (ev: React.FormEvent<HTMLFormElement>) => {
+  const storeStudent = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    console.log(ev);
+    const res = await axios.post('/api/add-student', {name, course, email, phone})
+    console.log({name, course, email, phone});
   }
 
   return (
