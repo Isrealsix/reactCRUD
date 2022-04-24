@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
-type inputField = string | number | undefined;
+type inputField = string | undefined;
 
 const AddStudent = () => {
   const [name, setName] = useState<inputField>('');
@@ -15,21 +15,37 @@ const AddStudent = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const phoneRef = useRef<HTMLInputElement>(null)
 
+  const allInput: { [key: string]: React.Dispatch<React.SetStateAction<inputField>> } = {
+    setName, setCourse, setEmail, setPhone
+  };
+
   const handleInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const allInput: { [key: string]: React.Dispatch<React.SetStateAction<inputField>> } = {
-      setName, setCourse, setEmail, setPhone
-    };
     const { value, name: inputName } = ev.target;
     const stateName = 'set'+inputName[0].toUpperCase() + inputName.slice(1)
     allInput[stateName](value)
   }
 
+  const formHasError = (): boolean => {
+    const inputData: inputField[] = [name, course, email, phone];
+    const emptyInput = inputData.some(input => {
+      const inputString = typeof input === 'string';
+      let res;
+      if (input === '') res = true
+      if (inputString && input.trim().length <= 2) res = true;
+      return res;
+    });
+    console.warn('One or more input field is empty || less than 2')
+    return emptyInput;
+  }
+
   const storeStudent = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    if (formHasError()) return;
     const result = await axios.post('http://127.0.0.1:8000/api/add-student', { name, course, email, phone });
     if (result.data.status === 200) {
       const dataFields = [nameRef, courseRef, emailRef, phoneRef];
-      for (const inputField of dataFields) inputField.current!.value = '';
+      for (const inputRef of dataFields) inputRef.current!.value = '';
+      for (const inputState in allInput) allInput[inputState]('');
     }
     console.log(result.data.message);
   }

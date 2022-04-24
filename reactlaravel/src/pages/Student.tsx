@@ -12,7 +12,22 @@ const Student = () => {
               </h4>
             </div>
             <div className="card-body">
-            
+              <table className="table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
