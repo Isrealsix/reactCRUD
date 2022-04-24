@@ -1,8 +1,27 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
+type inputField = string | number | undefined;
+
 const AddStudent = () => {
-  
+  const [name, setName] = useState<inputField>('');
+  const [course, setCourse] = useState<inputField>('');
+  const [email, setEmail] = useState<inputField>('');
+  const [phone, setPhone] = useState<inputField>('');
+
+  const nameRef = useRef<HTMLInputElement>(null)
+  const courseRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const phoneRef = useRef<HTMLInputElement>(null)
+
+  const handleInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const allInput: { [key: string]: React.Dispatch<React.SetStateAction<inputField>> } = {
+      setName, setCourse, setEmail, setPhone
+    };
+    const { value, name: inputName } = ev.target;
+    const stateName = 'set'+inputName[0].toUpperCase() + inputName.slice(1)
+    allInput[stateName](value)
+  }
 
   return (
     <div className="container">
@@ -18,22 +37,22 @@ const AddStudent = () => {
               <form>
                 <div className="form-group mb-3">
                   <label>Student Name</label>
-                  <input type="text" name="name" value="" className="form-control" />
+                  <input type="text" name="name" ref={nameRef} onChange={handleInput} className="form-control" />
                 </div>
 
                 <div className="form-group mb-3">
                   <label>Student Course</label>
-                  <input type="text" name="course" value="" className="form-control" />
+                  <input type="text" name="course" ref={courseRef} onChange={handleInput} className="form-control" />
                 </div>
 
                 <div className="form-group mb-3">
                   <label>Student Email</label>
-                  <input type="text" name="email" value="" className="form-control" />
+                  <input type="text" name="email" ref={emailRef} onChange={handleInput} className="form-control" />
                 </div>
 
                 <div className="form-group mb-3">
                   <label>Student Phone Number</label>
-                  <input type="text" name="phone" value="" className="form-control" />
+                  <input type="text" name="phone" ref={phoneRef} onChange={handleInput} className="form-control" />
                 </div>
 
                 <div className="form-group mb-3">
